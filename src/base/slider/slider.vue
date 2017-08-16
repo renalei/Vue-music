@@ -5,13 +5,21 @@
       </slot>
     </div>
     <div class="dots">
+        <div class="dot" v-for="(item,index) in Dots" :class = "{active: changeINdex === index }"></div>
     </div>
   </div>
 </template>
 <script type = 'text/ecmascript-6'>
   import BScroll from 'better-scroll'
   import {addClass} from 'common/js/dom'
+
   export default {
+    data () {
+      return {
+        Dots: [],
+        changeINdex: 0
+      }
+    },
     props: {
       loop: {
         type: Boolean,
@@ -29,6 +37,7 @@
     mounted() {
       setTimeout(() => {
         this._setSliderWidth()
+        this._initDots()
         this._initSlider()
       }, 20)
     },
@@ -48,6 +57,9 @@
           width += 2 * sliderWidth
         }
         this.$refs.sliderGroup.style.width = width + 'px'
+      },
+      _initDots() {
+        this.Dots = new Array(this.children.length)
       },
       _initSlider() {
         this.slider = new BScroll(this.$refs.slider, {
