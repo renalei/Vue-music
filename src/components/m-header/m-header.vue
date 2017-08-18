@@ -1,7 +1,7 @@
 <template>
 	<div class="m-header">
 		<div class="icon"></div>
-		<h1 class="text">Chichen Music1</h1>
+		<h1 class="text">Chichen Music</h1>
 	</div>
 </template>
 <script type="text/ecmascript-6">

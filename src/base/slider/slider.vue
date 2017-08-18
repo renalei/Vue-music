@@ -5,7 +5,7 @@
       </slot>
     </div>
     <div class="dots">
-        <div class="dot" v-for="(item,index) in Dots" :class = "{active: changeINdex === index }"></div>
+        <div class="dot" v-for="(item,index) in Dots" :class = "{active: changeIndex === index }"></div>
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@
     data () {
       return {
         Dots: [],
-        changeINdex: 0
+        changeIndex: 0
       }
     },
     props: {
@@ -39,10 +39,20 @@
         this._setSliderWidth()
         this._initDots()
         this._initSlider()
+        if (this.autoPlay) {
+          this._autoPlay()
+        }
       }, 20)
+      window.addEventListener('resize', () => {
+        if (!this.slider) {
+          return
+        }
+        this._setSliderWidth(true)
+        this.slider.refresh()
+      })
     },
     methods: {
-      _setSliderWidth() {
+      _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
         let width = 0
         let sliderWidth = this.$refs.slider.clientWidth
@@ -53,7 +63,7 @@
           child.style.width = sliderWidth + 'px'
           width += sliderWidth
         }
-        if (this.loop) {
+        if (this.loop && !isResize) {
           width += 2 * sliderWidth
         }
         this.$refs.sliderGroup.style.width = width + 'px'
@@ -69,9 +79,28 @@
           snap: true,
           snapLoop: this.loop,
           snapThreshold: 0.3,
-          snapSpeed: 300,
-          click: true
+          snapSpeed: 300
         })
+        this.slider.on('scrollEnd', () => {
+          let pageIndexEnd = this.slider.getCurrentPage().pageX
+          if (this.loop) {
+            pageIndexEnd -= 1
+          }
+          this.changeIndex = pageIndexEnd
+          if (this.autoPlay) {
+            clearTimeout(this.timer)
+            this._autoPlay()
+          }
+        })
+      },
+      _autoPlay() {
+        let pageIndex = this.changeIndex + 1
+        if (this.loop) {
+          pageIndex += 1
+        }
+        this.timer = setTimeout(() => {
+          this.slider.goToPage(pageIndex, 0, 400)
+        }, this.interval)
       }
     }
   }
