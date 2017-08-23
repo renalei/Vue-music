@@ -20,26 +20,10 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
-
+var bodyParser = require('body-parser')
 var app = express()
-//var apiRoutes = express.Router()
-//apiRoutes.get('/getDiscList', function (req, res) {
-//  const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
-//  axios.get(url, {
-//    headers: {
-//      referer: 'https://c.y.qq.com',
-//      host: 'c.y.qq.com'
-//    },
-//    params: req.query
-//  }).then((response) => {
-//    res.json(response.data)
-//  }).catch((e) => {
-//    console.log(e)
-//  })
-//})
-//
-//app.use('/api', apiRoutes)
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 var apiRoutes = require('../api_router/index');
 app.use('/api', apiRoutes)
 var compiler = webpack(webpackConfig)
