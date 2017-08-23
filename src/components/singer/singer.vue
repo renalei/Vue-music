@@ -1,6 +1,6 @@
 <template>
 	<div class="singer">
-		歌手页面
+		歌手页面阿雷的分支
 	</div>
 </template>
 
