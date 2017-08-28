@@ -20,15 +20,20 @@
       data: {
         type: Array,
         default: null
+      },
+      listenScroll: {
+//        监听滚动事件  需不需要监听滚动
+        type: Boolean,
+        default: false
       }
     },
-    mounted() {
+    mounted () {
       setTimeout(() => {
         this._initScroll()
       }, 20)
     },
     methods: {
-      _initScroll() {
+      _initScroll () {
         if (!this.$refs.wrapper) {
           return
         }
@@ -36,19 +41,33 @@
           probeType: this.probeType,
           click: this.click
         })
+        if (this.listenScroll) {
+          let me = this
+//          监听scroll的滚动事件 pos是个一个对象  他有x ，y轴的属性
+          this.scroll.on('scroll', (pos) => {
+            me.$emit('scroll', pos)
+          })
+        }
       },
-      enable() {
+      enable () {
         this.scroll && this.scroll.enable()
       },
-      disable() {
+      disable () {
         this.scroll && this.scroll.disable()
       },
-      refresh() {
+      refresh () {
         this.scroll && this.scroll.refresh()
+      },
+      scrollTo () {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElement () {
+//        此处调用时传参数不是很明白
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
     watch: {
-      data() {
+      data () {
         setTimeout(() => {
           this.refresh()
         }, 20)
