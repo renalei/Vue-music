@@ -20,7 +20,8 @@
     "axios": "^0.16.2",
     "qs": "^6.5.0",
     "querystring": "0.2.0",
-    "vue-lazyload":"^1.0.6"
+    "vue-lazyload":"^1.0.6",
+    "body-parser":"^1.17.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -68,7 +69,8 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.1.1",
     "qs": "^6.5.0",
-    "querystring": "s0.2.0"
+    "querystring": "s0.2.0",
+    "body-parser":"^1.17.2"
   },
   "engines": {
     "node": ">= 4.0.0",

@@ -25,7 +25,6 @@
         singerList().then((res) => {
           if (ERR_OK === res.code) {
             this.singers = res.data.list
-            console.log(this.singers)
             console.log(this._normalizeSinger(this.singers))
           }
         })
@@ -56,7 +55,21 @@
             name: item.Fsinger_name
           }))
         })
-        console.log(map)
+//        为了获取有序列表，需要处理map中的数据
+        let hot = []
+        let ret = []
+        for (let key in map) {
+          let val = map[key]
+          if (val.title.match(/[a-zA-Z]/) ) {
+            ret.push(val)
+          } else if (val.title === HOT_NAME) {//此处注意 =  ===的区别
+            hot.push(val)
+          }
+        }
+        ret.sort((a, b) => {
+          return a.title.charCodeAt(0) - b.title.charCodeAt(0)
+        })
+        return hot.concat(ret)
       }
     }
   }
